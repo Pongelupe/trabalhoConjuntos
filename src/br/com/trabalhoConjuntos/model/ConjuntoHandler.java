@@ -1,7 +1,6 @@
 package br.com.trabalhoConjuntos.model;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class ConjuntoHandler {
@@ -14,15 +13,38 @@ public class ConjuntoHandler {
 		this.conjuntoB = conjuntoB;
 	}
 
-	public int contaElementos(List<String> conjunto) {
+	public int contaElementos(Set<String> conjunto) {
 		return conjunto.size();
+	}
+
+	public NoConjunto uniao() {
+		HashSet<String> uniaoAB = new HashSet<String>(conjuntoA);
+		uniaoAB.addAll(conjuntoB);
+
+		return new NoConjunto(uniaoAB, uniaoAB.size());
 	}
 
 	public NoConjunto intercecao() {
 		HashSet<String> intercecaoAB = new HashSet<String>(conjuntoA);
-		intercecaoAB.addAll(conjuntoB);
+		intercecaoAB.removeIf(s -> !conjuntoB.contains(s));
 
 		return new NoConjunto(intercecaoAB, intercecaoAB.size());
+	}
+
+	public NoConjunto aMenosB() {
+		return subtracaoConjuntos(conjuntoA);
+	}
+
+	public NoConjunto bMenosA() {
+		return subtracaoConjuntos(conjuntoB);
+	}
+
+	private NoConjunto subtracaoConjuntos(Set<String> conjunto) {
+		Set<String> intercecaoAB = intercecao().getConjunto();
+		HashSet<String> resutante = new HashSet<String>(conjunto);
+		resutante.removeAll(intercecaoAB);
+
+		return new NoConjunto(resutante, resutante.size());
 	}
 
 }
