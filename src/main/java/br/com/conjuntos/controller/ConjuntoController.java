@@ -27,9 +27,4 @@ public class ConjuntoController {
 		}
 	}
 
-	@RequestMapping(value = "/batata")
-	public String batata() {
-		return "batata";
-	}
-
 }
