@@ -107,7 +107,7 @@ public class ConjuntoHandler {
 		HashSet<String> produtoCartesiano = new HashSet<String>();
 
 		conjuntoA.forEach(x -> {
-			String produto = x + ",y";
+			String produto = "(" + x + ",y)";
 			conjuntoB.forEach(y -> {
 				produtoCartesiano.add(produto.replace("y", y));
 			});
