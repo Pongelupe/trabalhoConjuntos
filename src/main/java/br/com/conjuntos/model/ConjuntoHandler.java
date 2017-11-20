@@ -1,10 +1,12 @@
 package br.com.conjuntos.model;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,7 +71,7 @@ public class ConjuntoHandler {
 	}
 
 	public NoConjunto conjuntoDasPartes(Set<String> conjunto) {
-		HashSet<String> conjuntoPartes = new HashSet<String>();
+		TreeSet<String> conjuntoPartes = new TreeSet<String>(Comparator.comparing(String::length));
 
 		final int tamanho = conjunto.size();
 
@@ -85,6 +87,31 @@ public class ConjuntoHandler {
 		}
 
 		return new NoConjunto(conjuntoPartes, conjuntoPartes.size());
+	}
+
+	private NoConjunto complemento(Set<String> conjunto) {
+		Set<String> universo = criaUniverso();
+		universo.removeAll(conjunto);
+		return new NoConjunto(universo, universo.size());
+	}
+
+	private Set<String> criaUniverso() {
+		String alfabeto = "abcdefghijklmnopqrstuvxwyz";
+		HashSet<String> set = new HashSet<String>(Arrays.asList(alfabeto.split("")));
+		set.addAll(Arrays.asList(alfabeto.toUpperCase().split("")));
+
+		for (int i = 0; i < 200; i++)
+			set.add((i - 100) + "");
+
+		return set;
+	}
+
+	private NoConjunto complementoA() {
+		return complemento(conjuntoA);
+	}
+
+	private NoConjunto complementoB() {
+		return complemento(conjuntoB);
 	}
 
 	private NoConjunto conjuntoDasPartesA() {
@@ -127,6 +154,8 @@ public class ConjuntoHandler {
 		operacoesRealizadas.put(Operations.CONJUNTOS_DAS_PARTES_A.name(), conjuntoDasPartesA());
 		operacoesRealizadas.put(Operations.CONJUNTOS_DAS_PARTES_B.name(), conjuntoDasPartesB());
 		operacoesRealizadas.put(Operations.DIFERENCA_SIMETRICA.name(), diferencaSimetrica());
+		operacoesRealizadas.put(Operations.COMPLEMENTO_A.name(), complementoA());
+		operacoesRealizadas.put(Operations.COMPLEMENTO_B.name(), complementoB());
 
 	}
 
@@ -143,7 +172,7 @@ public class ConjuntoHandler {
 	}
 
 	enum Operations {
-		UNIAO, INTERCECAO, AMENOSB, BMENOSA, PRODUTO_CATESIANO, CONJUNTOS_DAS_PARTES_A, CONJUNTOS_DAS_PARTES_B, DIFERENCA_SIMETRICA;
+		UNIAO, INTERCECAO, AMENOSB, BMENOSA, COMPLEMENTO_A, COMPLEMENTO_B, PRODUTO_CATESIANO, CONJUNTOS_DAS_PARTES_A, CONJUNTOS_DAS_PARTES_B, DIFERENCA_SIMETRICA;
 	}
 
 }
