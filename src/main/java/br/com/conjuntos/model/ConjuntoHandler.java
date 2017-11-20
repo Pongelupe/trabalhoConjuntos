@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -97,7 +98,7 @@ public class ConjuntoHandler {
 
 	private Set<String> criaUniverso() {
 		String alfabeto = "abcdefghijklmnopqrstuvxwyz";
-		HashSet<String> set = new HashSet<String>(Arrays.asList(alfabeto.split("")));
+		LinkedHashSet<String> set = new LinkedHashSet<String>(Arrays.asList(alfabeto.split("")));
 		set.addAll(Arrays.asList(alfabeto.toUpperCase().split("")));
 
 		for (int i = 0; i < 200; i++)
